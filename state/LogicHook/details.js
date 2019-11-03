@@ -1,34 +1,55 @@
-let CheckBoxComponent = require("./../../actions/CheckBoxComponent")["checkboxComponent"];
+let InputComponent = require("./../../actions/InputComponent")["inputComponent"];
 
-let logicHookType = {
-    type: "checkbox",
-    value: "logicHookType",
-    class: CheckBoxComponent,
-    constructParams: [
-        "checkboxComponent",
-        "Select LogicHook(s) type(s)", [
-            {
-                name: "After Save", value: "after_save"
-            },
-            {
-                name: "Before Save", value: "before_save"
-            },
-            {
-                name: "After Delete", value: "before_delete"
-            },
-            {
-                name: "Before Delete", value: "before_delete"
-            }
-        ]
-    ],
-    functionParams: [
-        {
-            name: 'aaa', fff: "bbb"
-        }
-    ]
+let logicHookType = (value) => {
+    return {
+        type: "input",
+        value: value,
+        class: InputComponent,
+        constructParams: [logicHookInputs
+        ],
+        functionParams: []
+    }
 }
 
+const logicHookInputs = [{
+    name: "file_name",
+    type: "input",
+    message: "File name",
+    validate: (value) => {
+        if (value.length > 5) {
+            return true;
+        } else {
+            return "Please enter at least 5 characters"
+        }
+    }
+
+},
+{
+    name: "hook_description",
+    type: "input",
+    message: "Hook Description",
+    validate: (value) => {
+        if (value.length > 5) {
+            return true;
+        } else {
+            return "Please enter at least 5 characters"
+        }
+    }
+},
+{
+    name: "hook_function_name",
+    type: "input",
+    message: "Hook Function Name",
+    validate: (value) => {
+        if (value.length > 5) {
+            return true;
+        } else {
+            return "Please enter at least 5 characters"
+        }
+    }
+}];
+
+
 module.exports = {
-    CheckBoxComponent,
     logicHookType
 }

@@ -1,6 +1,6 @@
 const checkbox = require("./../components/checkbox");
 
-const checkboxComponent = class checkboxComponent {
+const checkboxComponent = class CheckboxComponent {
     constructor(name, message, choices, defaultValues) {
         this.name = name;
         this.message = message;
@@ -9,9 +9,17 @@ const checkboxComponent = class checkboxComponent {
     }
 
     async create(actions) {
-        const result = await checkbox.create(this.name, this.message, this.choices, this.defaultValues);
+        const results = await checkbox.create(this.name, this.message, this.choices, this.defaultValues);
 
-        console.log(result);
+        let items = results.self;
+
+        for (let item of items) {
+            let actionClass = item["class"];
+            let functionParams = item["functionParams"];
+            let nextAction = new actionClass(...item["constructParams"]);
+
+            await nextAction.create(...functionParams);
+        };
     }
 }
 
