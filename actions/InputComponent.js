@@ -8,8 +8,8 @@ const inputComponent = class InputComponent {
     async create(actions) {
         const result = await input.create(this.questions);
 
-        //todo start to create the file
-        console.log(result);
+        let nextAction = new actions.default.class();
+        await nextAction.create(result);
     }
 }
 module.exports = {
