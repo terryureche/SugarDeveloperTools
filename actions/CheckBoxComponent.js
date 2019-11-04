@@ -14,6 +14,10 @@ const checkboxComponent = class CheckboxComponent {
         let items = results.self;
 
         for (let item of items) {
+            if (item.hasOwnProperty("callback")) {
+                item.callback();
+            }
+
             let actionClass = item["class"];
             let functionParams = item["functionParams"];
             let nextAction = new actionClass(...item["constructParams"]);
