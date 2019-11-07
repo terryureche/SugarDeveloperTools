@@ -17,7 +17,6 @@ let state = {
             ]
         ]
     }
-
 }
 
 module.exports = {

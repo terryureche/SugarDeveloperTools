@@ -10,6 +10,10 @@ const selectComponent = class SelectComponent {
     async create(actions) {
         const result = await list.create(this.name, this.message, this.choices);
 
+        if (actions && actions.hasOwnProperty("callback")) {
+            actions.callback();
+        }
+
         let item = result.self;
 
         let actionClass = item["class"];

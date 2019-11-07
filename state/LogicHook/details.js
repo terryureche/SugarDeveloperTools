@@ -16,6 +16,9 @@ let logicHookType = (value) => {
         ],
         functionParams: [{
             default: LogicHook,
+            custom: {
+                logicHookType: value
+            }
         }]
     }
 }

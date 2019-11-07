@@ -8,10 +8,20 @@ const inputComponent = class InputComponent {
     async create(actions) {
         const result = await input.create(this.questions);
 
+        let functionParams = {
+            result: result
+        };
+
         let nextAction = new actions.default.class();
-        await nextAction.create(result);
+
+        if (actions.hasOwnProperty("custom")) {
+            functionParams.custom = actions.custom;
+        }
+
+        await nextAction.create(functionParams);
     }
 }
+
 module.exports = {
     inputComponent
 };
