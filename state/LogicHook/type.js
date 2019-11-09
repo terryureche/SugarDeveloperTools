@@ -17,12 +17,28 @@ let logicHookType = {
                 value: value("before_save")
             },
             {
+                name: "After Relationship Add",
+                value: value("after_relationship_add")
+            },
+            {
+                name: "After Relationship Delete",
+                value: value("after_relationship_delete")
+            },
+            {
                 name: "After Delete",
-                value: value("before_delete")
+                value: value("after_delete")
             },
             {
                 name: "Before Delete",
                 value: value("before_delete")
+            },
+            {
+                name: "Process Record",
+                value: value("process_record")
+            },
+            {
+                name: "After Retrieve",
+                value: value("after_retrieve")
             }
         ]
     ],

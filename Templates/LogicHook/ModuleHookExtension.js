@@ -1,5 +1,5 @@
 
-const moduleLogicHook = (data, packageName) => {
+const moduleLogicHook = (data, packageName, fileExist) => {
     let inputs = data.result;
     let logicHookType = data.custom.logicHookType;
 
@@ -7,9 +7,7 @@ const moduleLogicHook = (data, packageName) => {
     let hookDescription = inputs["hook_description"];
     let hookFunctionName = inputs["hook_function_name"];
     let path = `Sugarcrm\\Sugarcrm\\custom\\wsystems\\${packageName}\\LogicHooks\\${fileName}`;
-    let template =
-        `
-<?php
+    let template = `
 
     $hook_array["${logicHookType}"][] = array(
         1,
@@ -18,9 +16,16 @@ const moduleLogicHook = (data, packageName) => {
         "${path}",
         "${hookFunctionName}"
     );
-`;
+    `;
 
-    return template;
+    let startTag = `<?php`;
+
+    if (fileExist) {
+        return template;
+    } else {
+        let completeTemplate = (startTag + template);
+        return completeTemplate;
+    }
 }
 
 module.exports = {

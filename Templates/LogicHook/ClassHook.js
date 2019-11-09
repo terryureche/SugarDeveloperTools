@@ -4,10 +4,9 @@ const classLogicHook = (data, packageName) => {
     let functionName = inputs["hook_function_name"];
 
     let template =
-        `
-<?php
+        `<?php
 
-namespace Sugarcrm\Sugarcrm\custom\wsystems\${packageName}\LogicHooks;
+namespace Sugarcrm\\Sugarcrm\\custom\\wsystems\\${packageName}\\LogicHooks;
 
 class ${className}
 {

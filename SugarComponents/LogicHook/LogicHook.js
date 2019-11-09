@@ -1,8 +1,8 @@
-let fileUtils = require("./../../lib/files")["fileUtils"];
-let classHook = require("./../../Templates/LogicHook/ClassHook")["default"];
-let moduleHookExtension = require("./../../Templates/LogicHook/ModuleHookExtension")["default"];
+let classHookTemplate = require("./../../Templates/LogicHook/ClassHook")["default"];
+let moduleHookExtensionTemplate = require("./../../Templates/LogicHook/ModuleHookExtension")["default"];
 let ConfigStore = require("./../../lib/configStore")["default"];
 let path = require("path");
+let FileUtils = require("./../../lib/files")["default"];
 
 const logicHook = class LogicHook {
     constructor(logicHookType) {
@@ -10,12 +10,7 @@ const logicHook = class LogicHook {
     }
 
     async create(inputs) {
-        // let fileName = inputs["file_name"];
-        // let hookDescription = inputs["hook_description"];
-        // let hookFunctionName = inputs["hook_function_name"];
-        let result = inputs.result;
-
-        let hookModuleName = result["hook_module_name"];
+        let hookModuleName = inputs.result.hook_module_name;
 
         let configStore = new ConfigStore();
         let packageName = configStore.getDefaultPackageValue().packagename;
@@ -28,7 +23,8 @@ const logicHook = class LogicHook {
     }
 
     async createGlobalHook(inputs, packageName) {
-        let res = await fileUtils.createDirectory();
+        let res = await FileUtils.createDirectory();
+
 
     }
 
@@ -39,14 +35,33 @@ const logicHook = class LogicHook {
         let extensionFileName = packageName + ".php";
 
         let basePath = path.join(process.cwd(), packageName);
+
         let extensionPath = path.join(basePath, "src", "custom", "Extension", "modules", module, "Ext", "LogicHooks");
         let classPath = path.join(basePath, "src", "custom", "src", "wsystems", packageName, "LogicHooks");
+
         let extensionPathFile = path.join(extensionPath, extensionFileName);
         let classPathFile = path.join(classPath, classFileName);
 
+        await FileUtils.createDirectory(classPath);
+        await FileUtils.createDirectory(extensionPath);
 
-        await fileUtils.createDirectory(classPath);
-        await fileUtils.createDirectory(extensionPath);
+        await this.createFiles(inputs, packageName, extensionPathFile, classPathFile);
+    }
+
+    async createFiles(inputs, packageName, extensionPathFile, classPathFile) {
+        let classTemplate = classHookTemplate(inputs, packageName);
+
+        let fileExist = FileUtils.exist(extensionPathFile);
+
+        let extensionTemplate = moduleHookExtensionTemplate(inputs, packageName, fileExist);
+
+        await FileUtils.writeFile(classPathFile, classTemplate);
+
+        if (fileExist) {
+            await FileUtils.appendFile(extensionPathFile, extensionTemplate);
+        } else {
+            await FileUtils.writeFile(extensionPathFile, extensionTemplate);
+        }
     }
 }
 
